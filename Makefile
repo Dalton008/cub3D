@@ -29,7 +29,7 @@ ${NAME} : $(OBJ) $(OBJ_UTILS) $(OBJ_MAP) $(HEADER)
 	gcc $(FLAGS) $(FLAGS_MLX) $(OBJ) $(OBJ_UTILS) $(OBJ_MAP) -o $(NAME)
 
 clean :
-	$(RM) $(OBJ) $(OBJ_UTILS)
+	$(RM) $(OBJ) $(OBJ_UTILS) $(OBJ_MAP)
 
 fclean : clean
 	$(RM) $(NAME)
