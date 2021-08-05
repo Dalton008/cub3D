@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 13:55:42 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/04 21:21:58 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/05 20:52:30 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,6 @@ int	close_win(void)
 	ft_putstr_fd("Close window\n", 1);
 	exit(0);
 }
-
-// int wm[30][30]=
-// {
-// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-// 	{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-// };
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -79,6 +51,7 @@ void print(t_all *all)
 	int		i;
 
 	x = 0;
+
 	while (x < SCREEN_WIDTH)
 	{
 		cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
@@ -128,9 +101,9 @@ void print(t_all *all)
 				hit = 1;
 			}
 		}
-		if(side == 0) 
+		if(side == 0)
 			perpWallDist = (mapX - all->player.posX + (1 - stepX) / 2) / rayDirX;
-		else         
+		else
 			perpWallDist = (mapY - all->player.posY + (1 - stepY) / 2) / rayDirY;
 		lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 		drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
@@ -140,7 +113,7 @@ void print(t_all *all)
 		if(drawEnd >= SCREEN_HEIGHT)
 			drawEnd = SCREEN_HEIGHT - 1;
 		i = drawStart;
-		while (i < drawEnd) 
+		while (i < drawEnd)
 		{
 			my_mlx_pixel_put(&all->img, x, i, 0x01423b);
 			i++;
@@ -186,6 +159,7 @@ int	key_hook(int keycode, t_all *all)
 			all->player.dirY = oldDirX * sin(-rotSpeed) + all->player.dirY * cos(-rotSpeed);
 			all->player.planeX = all->player.planeX * cos(-rotSpeed) - all->player.planeY * sin(-rotSpeed);
 			all->player.planeY = oldPlaneX * sin(-rotSpeed) + all->player.planeY * cos(-rotSpeed);
+			printf("%f %f\n", all->player.dirX, all->player.dirY);
 		}
 		if (keycode == 0 || keycode == 123)
 		{
@@ -193,6 +167,7 @@ int	key_hook(int keycode, t_all *all)
 			all->player.dirY = oldDirX * sin(rotSpeed) + all->player.dirY * cos(rotSpeed);
 			all->player.planeX = all->player.planeX * cos(rotSpeed) - all->player.planeY * sin(rotSpeed);
 			all->player.planeY = oldPlaneX * sin(rotSpeed) + all->player.planeY * cos(rotSpeed);
+			printf("%f %f\n", all->player.dirX, all->player.dirY);
 		}
 	mlx_destroy_image(all->mlx.mlx, all->img.img);
 	all->img.img = mlx_new_image(all->mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -211,7 +186,6 @@ void	raycaster(t_all *all)
 	all->mlx.win = mlx_new_window(all->mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D");
 	all->img.img = mlx_new_image(all->mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bits_per_pixel, &all->img.line_length, &all->img.endian);
-	// mlx_clear_window(all->mlx.mlx, all->mlx.win);
 	print(all);
 	mlx_hook(all->mlx.win, 17, 1L << 0, close_win, &all->img);
 	mlx_hook(all->mlx.win, 2, 1L << 0, key_hook, all);

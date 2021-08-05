@@ -6,13 +6,42 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:00:18 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/04 21:05:42 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/05 19:19:01 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3D.h"
 
 void	parse_map(t_all *all, t_lst *lst)
+{
+	int	i;
+
+	i = 0;
+	all->map_c = (char **)malloc(sizeof(char *) * (ft_lstsize(lst) - 7));
+	all->map_c[ft_lstsize(lst) - 7] = NULL;
+	while (i < 8)
+	{
+		lst = lst->next;
+		i++;
+	}
+	i = 0;
+	while (lst)
+	{
+		all->map_c[i] = lst->str;
+		lst = lst->next;
+		i++;
+	}
+	all->map_c[i] = NULL;
+	// i = 0;
+	// while (map->map[i] != NULL)
+	// {
+	// 	ft_putstr_fd(map->map[i], 1);
+	// 	ft_putchar_fd('\n', 1);
+	// 	i++;
+	// }
+}
+
+void	change_map_int(t_all *all, t_lst *lst)
 {
 	t_lst *h;
 	int	i;
@@ -39,8 +68,8 @@ void	parse_map(t_all *all, t_lst *lst)
 				all->map[i][j] = 1;
 			if (all->map[i][j] == 30)
 			{
-				all->player.posX = (double)i;
-				all->player.posY = (double)j;
+				all->player.posX = (double)i + 0.5;
+				all->player.posY = (double)j + 0.5;
 				all->map[i][j] = 0;
 			}
 			j++;
@@ -50,10 +79,40 @@ void	parse_map(t_all *all, t_lst *lst)
 	}
 }
 
+void	check_lst(t_lst *lst, t_all *all)
+{
+	int		count;
+	t_lst	*head;
+	int		i;
+
+	i = 0;
+	head = lst;
+	count = 0;
+	while (lst)
+	{
+		if (check_key(lst->str) == 0)
+		{
+			printf("%s\n", lst->str);
+			count++;
+		}
+		lst = lst->next;
+	}
+	count--;
+	printf("%d\n", count);
+	lst = head;
+	if (count != 7)
+		exit (0);
+	else
+	{
+		parse_map(all, lst);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_all	*all;
 	t_lst	*lst;
+	t_paths	path;
 	t_lst	*head;
 	int		fd;
 	char	*line;
@@ -67,6 +126,9 @@ int	main(int argc, char **argv)
 	while (get_next_line(fd, &line))
 		ft_lstadd_back(&lst, ft_lstnew(line));
 	head = lst;
-	parse_map(all, lst);
+	check_lst(lst, all);
+	main_check(lst, all);
+	parse_info(lst, &path, all);
+	change_map_int(all, lst);
 	raycaster(all);
 }
