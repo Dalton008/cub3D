@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:00:18 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/05 19:19:01 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/06 21:03:51 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	parse_map(t_all *all, t_lst *lst)
 	int	i;
 
 	i = 0;
-	all->map_c = (char **)malloc(sizeof(char *) * (ft_lstsize(lst) - 7));
-	all->map_c[ft_lstsize(lst) - 7] = NULL;
-	while (i < 8)
+	all->map_c = (char **)malloc(sizeof(char *) * (ft_lstsize(lst) - all->count));
+	all->map_c[ft_lstsize(lst) - all->count] = NULL;
+	while (i < (all->count + 1))
 	{
 		lst = lst->next;
 		i++;
@@ -41,6 +41,41 @@ void	parse_map(t_all *all, t_lst *lst)
 	// }
 }
 
+void	set_coordinates(t_all *all, int i, int j)
+{
+	all->player.posY = (double)j + 0.5;
+	all->player.posX = (double)i + 0.5;
+	if (all->map[i][j] == 21) // E
+	{
+		all->player.dirX = 0;
+		all->player.dirY = 1;
+		all->player.planeX = -0.66;
+		all->player.planeY = 0;
+	}
+	else if (all->map[i][j] == 30) // N
+	{
+		all->player.dirX = -1;
+		all->player.dirY = 0;
+		all->player.planeX = 0;
+		all->player.planeY = -0.66;
+	}
+	else if (all->map[i][j] == 35) // S
+	{
+		all->player.dirX = 1;
+		all->player.dirY = 0;
+		all->player.planeX = 0;
+		all->player.planeY = 0.66;
+	}
+	else if (all->map[i][j] == 39) // W
+	{
+		all->player.dirX = 0;
+		all->player.dirY = -1;
+		all->player.planeX = 0.66;
+		all->player.planeY = 0;
+	}
+	all->map[i][j] = 0;
+}
+
 void	change_map_int(t_all *all, t_lst *lst)
 {
 	t_lst *h;
@@ -49,7 +84,7 @@ void	change_map_int(t_all *all, t_lst *lst)
 
 	i = 0;
 	j = 0;
-	all->map = (int **)malloc(sizeof(int *) * (ft_lstsize(lst) - 7));
+	all->map = (int **)malloc(sizeof(int *) * (ft_lstsize(lst) - all->count));
 	while (i < 8)
 	{
 		lst = lst->next;
@@ -66,11 +101,9 @@ void	change_map_int(t_all *all, t_lst *lst)
 			all->map[i][j] = lst->str[j] - 48;
 			if (all->map[i][j] == -16)
 				all->map[i][j] = 1;
-			if (all->map[i][j] == 30)
+			if (all->map[i][j] > 1)
 			{
-				all->player.posX = (double)i + 0.5;
-				all->player.posY = (double)j + 0.5;
-				all->map[i][j] = 0;
+				set_coordinates(all, i , j);
 			}
 			j++;
 		}
@@ -81,43 +114,40 @@ void	change_map_int(t_all *all, t_lst *lst)
 
 void	check_lst(t_lst *lst, t_all *all)
 {
-	int		count;
+	// int		count;
 	t_lst	*head;
 	int		i;
 
 	i = 0;
 	head = lst;
-	count = 0;
+	// count = 0;
 	while (lst)
 	{
 		if (check_key(lst->str) == 0)
 		{
 			printf("%s\n", lst->str);
-			count++;
+			all->count++;
 		}
 		lst = lst->next;
 	}
-	count--;
-	printf("%d\n", count);
+	all->count--;
 	lst = head;
-	if (count != 7)
-		exit (0);
-	else
-	{
-		parse_map(all, lst);
-	}
+	printf("%d\n", all->count);
+	parse_map(all, lst);
 }
 
 int	main(int argc, char **argv)
 {
 	t_all	*all;
 	t_lst	*lst;
-	t_paths	path;
+	// t_paths	path;
 	t_lst	*head;
 	int		fd;
 	char	*line;
 
 	all = malloc(sizeof(t_all));
+	all->path = malloc(sizeof(t_paths));
+	all->count = 0;
 	if (argc == 2)
 		fd = open(argv[1], O_RDONLY);
 	else
@@ -128,7 +158,7 @@ int	main(int argc, char **argv)
 	head = lst;
 	check_lst(lst, all);
 	main_check(lst, all);
-	parse_info(lst, &path, all);
+	parse_info(lst, all);
 	change_map_int(all, lst);
 	raycaster(all);
 }

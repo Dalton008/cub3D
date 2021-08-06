@@ -1,16 +1,16 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./textures/colorstone.xpm
+SO ./textures/redbrick.xpm
+WE ./textures/wood.xpm
+EA ./textures/greystone.xpm
 
-F 220,100,0
-C 225,30,0
+F 53,39,92
+C 85,177,217
 
 111111111111111111111
 100000000000000000001
 100000000000000000001
-100000010000000000001
-1000000N0000000000001
+100000010001001000001
+1000000E0000000000001
 100000000000000000001
 100000000000000000001
 100000000000000000001

@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:01:02 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/05 18:33:29 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/06 21:00:38 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
+# define texWidth 64
+# define texHeight 64
 
 # define BAD_MAP 1
 # define DUBLICATE_TEX 2
@@ -28,6 +30,13 @@
 # define BAD_COLOUR 6
 # define NOT_ENOUGHT_TEX 7
 # define NOT_ENOUGHT_COLOUR 8
+
+# define GREY	0x808080
+# define PURPLE	0xb677d4
+# define BLUE	0x55b1d9
+# define RED	0xe06060
+# define GREEN	0x7ed477
+# define YELLOW	0xeaf279
 
 typedef struct s_paths
 {
@@ -72,13 +81,37 @@ typedef struct s_data
 	int		endian;
 }				t_data;
 
+// typedef struct s_hooks
+// {
+// 	int UP;
+// 	int DOWN;
+// 	int LEFT;
+// 	int RIGHT;
+// } t_hooks;
+
+// typedef struct s_textures
+// {
+// 	unsigned int	**colors_north;
+// 	unsigned int	**colors_south;
+// 	unsigned int	**colors_west;
+// 	unsigned int	**colors_east;
+// }				t_textures;
+
+
 typedef struct s_all
 {
-	t_player	player;
-	t_data		img;
-	t_mlx		mlx;
-	char		**map_c;
-	int			**map;
+	// t_hooks		hok;
+	t_player		player;
+	t_data			img;
+	t_mlx			mlx;
+	t_paths			*path;
+	char			**map_c;
+	int				**map;
+	int				**colors_north;
+	int				**colors_south;
+	int				**colors_west;
+	int				**colors_east;
+	int				count;
 }				t_all;
 
 //utils
@@ -96,7 +129,7 @@ void	print_map(t_all *all);
 
 // parser //check_map
 void	main_check(t_lst *lst, t_all *all);
-void	parse_info(t_lst *lst, t_paths *path, t_all *all);
+void	parse_info(t_lst *lst, t_all *all);
 int		check_key(char *line);
 int		right_key(t_lst *lst);
 int		dublicate_colour(t_lst *lst);
@@ -113,7 +146,7 @@ int		ft_splitlen(char **str);
 
 // parse_info
 int		ft_atoi(char *str);
-void	get_path(char *line, t_paths *path, t_lst *lst, t_all *all);
+void	get_path(char *line, t_lst *lst, t_all *all);
 int		get_colour(char *line, t_lst *lst, t_all *all);
 char	*ft_strtrim(char const *s, const char *set);
 char	**ft_split(char const *s, char c);
