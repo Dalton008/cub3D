@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:49:33 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/06 21:24:34 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/07 20:10:34 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	right_simbols_in_map(t_lst *lst, t_all *all) // валидные симво�
 		j = 0;
 		while (all->map_c[i][j])
 		{
-			if (!ft_check(all->map_c[i][j], "10 NESW"))
+			if (!ft_check(all->map_c[i][j], "210 NESW"))
 			{
 				lst->error = BAD_MAP;
 				return (1); // плохо

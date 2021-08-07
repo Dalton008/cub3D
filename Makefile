@@ -12,7 +12,7 @@ LIST_PARSER = $(shell find ./parser -name "*.c")
 
 FLAGS = 
 
-FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
+FLAGS_MLX = libmlx.dylib -lmlx -framework OpenGL -framework AppKit
 
 OBJ = $(LIST:.c=.o)
 

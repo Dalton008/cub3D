@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:01:02 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/06 21:00:38 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/07 19:44:08 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define RED	0xe06060
 # define GREEN	0x7ed477
 # define YELLOW	0xeaf279
+# define PI		3.1416
 
 typedef struct s_paths
 {
@@ -55,8 +56,23 @@ typedef struct s_lst
 	struct s_lst	*next;
 }				t_lst;
 
+typedef struct s_mini
+{
+	double		dir_x;
+	double		dir_y;
+	double		pa;
+	double		start;
+	double		end;
+	double		x;
+	double		y;
+	int			on;
+}				t_mini;
+
 typedef struct s_player
 {
+	int			x;
+	int			y;
+	double		pa;
 	double		posX;
 	double		posY;
 	double		dirX;
@@ -64,6 +80,13 @@ typedef struct s_player
 	double		planeX;
 	double		planeY;
 }				t_player;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	int		texture;
+}				t_sprite;
 
 typedef struct s_mlx
 {
@@ -111,7 +134,14 @@ typedef struct s_all
 	int				**colors_south;
 	int				**colors_west;
 	int				**colors_east;
+	int				**colors_sprite;
 	int				count;
+
+	t_data			img_map;
+	t_mini			mini;
+	t_sprite		sprites;
+	int				map_max_width;
+	int				map_max_height;
 }				t_all;
 
 //utils
@@ -152,5 +182,10 @@ char	*ft_strtrim(char const *s, const char *set);
 char	**ft_split(char const *s, char c);
 int		ft_isdigit(int c);
 int		ft_strncmp(const char *str1, const char *str2, size_t num);
+
+void	print_mini_map(t_all *all);
+void	print_img(t_data *img, int x, int y, int color);
+int		key_hook_mini(int keycode, t_all *all);
+void	print_player(t_all *all, int color);
 
 #endif
