@@ -6,7 +6,7 @@ LIST = cub3D.c
 
 LIST_UTILS = $(shell find ./utils -name "*.c")
 
-LIST_MAP = $(shell find ./work_with_map -name "*.c")
+LIST_MAP = $(shell find ./raycasting -name "*.c")
 
 LIST_PARSER = $(shell find ./parser -name "*.c")
 

@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:01:02 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/07 19:44:08 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/08 18:45:46 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ typedef struct s_player
 
 typedef struct s_sprite
 {
-	double	x;
-	double	y;
-	int		texture;
+	double			x[10];
+	double			y[10];
+	int				id[10];
 }				t_sprite;
 
 typedef struct s_mlx
@@ -104,26 +104,19 @@ typedef struct s_data
 	int		endian;
 }				t_data;
 
-// typedef struct s_hooks
-// {
-// 	int UP;
-// 	int DOWN;
-// 	int LEFT;
-// 	int RIGHT;
-// } t_hooks;
-
-// typedef struct s_textures
-// {
-// 	unsigned int	**colors_north;
-// 	unsigned int	**colors_south;
-// 	unsigned int	**colors_west;
-// 	unsigned int	**colors_east;
-// }				t_textures;
-
+typedef struct s_hooks
+{
+	int up;
+	int down;
+	int left;
+	int right;
+	int turn_l;
+	int turn_r;
+} t_hooks;
 
 typedef struct s_all
 {
-	// t_hooks		hok;
+	t_hooks			hok;
 	t_player		player;
 	t_data			img;
 	t_mlx			mlx;
@@ -136,6 +129,7 @@ typedef struct s_all
 	int				**colors_east;
 	int				**colors_sprite;
 	int				count;
+	int				count_sprites;
 
 	t_data			img_map;
 	t_mini			mini;
@@ -156,6 +150,7 @@ void	ft_putchar_fd(char c, int fd);
 void	raycaster(t_all *all);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	print_map(t_all *all);
+void	moves(t_all *all, int keycode);
 
 // parser //check_map
 void	main_check(t_lst *lst, t_all *all);
@@ -187,5 +182,7 @@ void	print_mini_map(t_all *all);
 void	print_img(t_data *img, int x, int y, int color);
 int		key_hook_mini(int keycode, t_all *all);
 void	print_player(t_all *all, int color);
+
+void	sortSprites(int *spriteOrder, double *spriteDistance, t_all *all);
 
 #endif

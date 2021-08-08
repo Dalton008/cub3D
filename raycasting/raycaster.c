@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 13:55:42 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/07 20:59:00 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/08 18:55:51 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,15 @@ void print(t_all *all)
 
 	x = 0;
 	color = 0;
-	optimization_color_img(all, &all->colors_north, all->path->north_path);
-	optimization_color_img(all, &all->colors_south, all->path->south_path);
-	optimization_color_img(all, &all->colors_west, all->path->west_path);
-	optimization_color_img(all, &all->colors_east, all->path->east_path);
-	optimization_color_img(all, &all->colors_sprite, "textures/barrel.xpm");
 	double step = 0;
 	double texPos = 0;
 	int texY = 0;
+
+	double	ZBuffer[SCREEN_WIDTH];
+	
+	int spriteOrder[all->count_sprites];
+	double spriteDistance[all->count_sprites];
+
 	while (x < SCREEN_WIDTH)
 	{
 		cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
@@ -144,7 +145,7 @@ void print(t_all *all)
 				mapY += stepY;
 				side = 1;
 			}
-			if (all->map[mapX][mapY] > 0)
+			if (all->map[mapX][mapY] > 0 && all->map[mapX][mapY] != 2)
 			{
 				hit = 1;
 			}
@@ -160,7 +161,6 @@ void print(t_all *all)
 		drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
 		if(drawEnd >= SCREEN_HEIGHT)
 			drawEnd = SCREEN_HEIGHT - 1;
-		
 		if (side == 0)
 			wallX = all->player.posY + perpWallDist * rayDirY;
 		else
@@ -189,7 +189,8 @@ void print(t_all *all)
 		{
 			texY = (int)texPos & (64 - 1);
 			texPos += step;
-			if (side == 0) 
+			color = all->colors_sprite[texX][texY];
+			if (side == 0)
 			{
 				if (stepX > 0)
 					color = all->colors_south[texX][texY]; //S
@@ -213,92 +214,115 @@ void print(t_all *all)
 			my_mlx_pixel_put(&all->img, x, i, all->path->floor_colour);
 			i++;
 		}
+		ZBuffer[x] = perpWallDist;
 		x++;
 	}
-	
+
+	for (int i = 0; i < all->count_sprites; i++)
+    {
+		spriteOrder[i] = i;
+		spriteDistance[i] = ((all->player.posX - all->sprites.x[i]) * (all->player.posX - all->sprites.x[i]) + (all->player.posY - all->sprites.y[i]) * (all->player.posY -  all->sprites.y[i]));
+    }
+
+    sortSprites(spriteOrder, spriteDistance, all);
+
+    for (int i = 0; i < all->count_sprites; i++)
+    {
+		double spriteX = all->sprites.x[i] - all->player.posX;
+		double spriteY = all->sprites.y[i] - all->player.posY;
+		double invDet = 1.0 / (all->player.planeX * all->player.dirY - all->player.dirX * all->player.planeY);
+		double transformX = invDet * (all->player.dirY * spriteX - all->player.dirX * spriteY);
+		double transformY = invDet * (-all->player.planeY * spriteX + all->player.planeX * spriteY);
+		int spriteScreenX = (int)((SCREEN_WIDTH / 2) * (1 + transformX / transformY));
+
+		#define uDiv 1
+		#define vDiv 1
+		#define vMove 0.0
+
+		int vMoveScreen = (int)(vMove / transformY);		
+		int spriteHeight = abs((int)(SCREEN_HEIGHT / (transformY))) / vDiv; 
+		int drawStartY = -spriteHeight / 2 + SCREEN_HEIGHT / 2 + vMoveScreen;
+		if (drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + SCREEN_HEIGHT / 2 + vMoveScreen;
+		if (drawEndY >= SCREEN_HEIGHT) 
+			drawEndY = SCREEN_HEIGHT - 1;		
+		int spriteWidth = abs( (int) (SCREEN_HEIGHT / (transformY))) / uDiv;
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if (drawStartX < 0)
+			drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if (drawEndX >= SCREEN_WIDTH)
+			drawEndX = SCREEN_WIDTH - 1;
+		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+			if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH && transformY < ZBuffer[stripe])
+			for (int y = drawStartY; y < drawEndY; y++)
+			{
+					int d = (y - vMoveScreen) * 256 - SCREEN_HEIGHT * 128 + spriteHeight * 128;
+					int texY = ((d * texHeight) / spriteHeight) / 256;
+					int color = all->colors_sprite[0][texWidth * texX + texY];
+					if ((color & 0x00FFFFFF) != 0)
+				  		my_mlx_pixel_put(&all->img, stripe, y, color);
+			}
+		}
+    }
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img.img, 0, 0);
+}
+
+void	sortSprites(int *spriteOrder, double *spriteDistance, t_all *all)
+{
+	int			i;
+	double		temp;
+
+	i = 0;
+	temp = 0;
+	while (i < all->count_sprites)
+	{
+		if (spriteDistance[i] < spriteDistance[i + 1])
+		{
+			temp = spriteDistance[i];
+			spriteDistance[i] = spriteDistance[i + 1];
+			spriteDistance[i + 1] = temp;
+			temp = all->sprites.x[i];
+			all->sprites.x[i] = all->sprites.x[i + 1];
+			all->sprites.x[i + 1] = temp;
+			temp = all->sprites.y[i];
+			all->sprites.y[i] = all->sprites.y[i + 1];
+			all->sprites.y[i + 1] = temp;
+			i = 0;
+		}
+		i++;
+	}
 }
 
 int	key_hook(int keycode, t_all *all)
 {
-	double moveSpeed;
-	double rotSpeed;
-	double oldDirX;
-	double oldPlaneX;
 	int		x;
 	int		y;
 
-	rotSpeed = 0.1;
-	oldDirX = all->player.dirX;
-	oldPlaneX = all->player.planeX;
-	moveSpeed = 0.1;
 	if (all->mini.on % 2 == 0)
-	{
 		mlx_destroy_image(all->mlx.mlx, all->img_map.img);
-	}
-	printf("%d\n", keycode);
 	if (keycode == 53)
 	{
 		ft_putstr_fd("Close window\n", 1);
 		exit(1);
 	}
-	if (keycode == 13 || keycode == 126) //w
-	{
-		if (all->map[(int)(all->player.posX + all->player.dirX * moveSpeed)][(int)(all->player.posY)] == 0) 
-			all->player.posX += all->player.dirX * moveSpeed;
-		if (all->map[(int)(all->player.posX)][(int)(all->player.posY + all->player.dirY * moveSpeed)] == 0) 
-			all->player.posY += all->player.dirY * moveSpeed;
-	}
-	if (keycode == 1 || keycode == 125) //s
-	{
-		if (all->map[(int)(all->player.posX - all->player.dirX * moveSpeed)][(int)(all->player.posY)] == 0) 
-			all->player.posX -= all->player.dirX * moveSpeed;
-		if (all->map[(int)(all->player.posX)][(int)(all->player.posY - all->player.dirY * moveSpeed)] == 0) 
-			all->player.posY -= all->player.dirY * moveSpeed;
-	}
-	if (keycode == 124 || keycode == 2) //d = 2
-	{
-		all->player.dirX = all->player.dirX * cos(-rotSpeed) - all->player.dirY * sin(-rotSpeed);
-		all->player.dirY = oldDirX * sin(-rotSpeed) + all->player.dirY * cos(-rotSpeed);
-		all->player.planeX = all->player.planeX * cos(-rotSpeed) - all->player.planeY * sin(-rotSpeed);
-		all->player.planeY = oldPlaneX * sin(-rotSpeed) + all->player.planeY * cos(-rotSpeed);
-	}
-	if (keycode == 123 || keycode == 0) //a = 0
-	{
-		all->player.dirX = all->player.dirX * cos(rotSpeed) - all->player.dirY * sin(rotSpeed);
-		all->player.dirY = oldDirX * sin(rotSpeed) + all->player.dirY * cos(rotSpeed);
-		all->player.planeX = all->player.planeX * cos(rotSpeed) - all->player.planeY * sin(rotSpeed);
-		all->player.planeY = oldPlaneX * sin(rotSpeed) + all->player.planeY * cos(rotSpeed);
-	}
-	// if (keycode == 2)
-	// {
-	// 	if (all->map[(int)(all->player.posX + all->player.dirY * moveSpeed)][(int)(all->player.posY)] == 0) 
-	// 		all->player.posX += all->player.dirY * moveSpeed;
-	// 	if (all->map[(int)(all->player.posX)][(int)(all->player.posY - all->player.dirX * moveSpeed)] == 0) 
-	// 		all->player.posY -= all->player.dirX * moveSpeed;
-	// }
-	// if (keycode == 0)
-	// {
-	// 	if (all->map[(int)(all->player.posY - all->player.dirY * moveSpeed)][(int)(all->player.posY)] == 0) 
-	// 		all->player.posX -= all->player.dirY * moveSpeed;
-	// 	if (all->map[(int)(all->player.posX)][(int)(all->player.posY + all->player.dirX * moveSpeed)] == 0) 
-	// 		all->player.posY += all->player.dirX * moveSpeed;
-	// }
+	moves(all, keycode);
 	mlx_destroy_image(all->mlx.mlx, all->img.img);
 	all->img.img = mlx_new_image(all->mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bits_per_pixel, &all->img.line_length, &all->img.endian);
 	print(all);
 	if (keycode == 48)
-	{
 		all->mini.on++;
-	}
 	if (all->mini.on % 2 == 0)
 	{
 		all->img_map.img = mlx_new_image(all->mlx.mlx, all->map_max_width * 10, all->map_max_height * 10);
 		all->img_map.addr = mlx_get_data_addr(all->img_map.img, &all->img_map.bits_per_pixel, &all->img_map.line_length, &all->img_map.endian);
 		print_mini_map(all);
 		print_player(all, 0xfa0000);
-		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 0, 0);
+		mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 10, 10);
 	}
 	return (0);
 }
@@ -313,6 +337,8 @@ void	raycaster(t_all *all)
 {
 	int	x;
 	int	y;
+	// int	x1;
+	// int	y1;
 
 	y = 0;
 	all->mini.on = 1;
@@ -322,16 +348,14 @@ void	raycaster(t_all *all)
 	all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bits_per_pixel, &all->img.line_length, &all->img.endian);
 	all->img_map.img = mlx_new_image(all->mlx.mlx, all->map_max_width * 10, all->map_max_height * 10);
 	all->img_map.addr = mlx_get_data_addr(all->img_map.img, &all->img_map.bits_per_pixel, &all->img_map.line_length, &all->img_map.endian);
-
+	optimization_color_img(all, &all->colors_north, all->path->north_path);
+	optimization_color_img(all, &all->colors_south, all->path->south_path);
+	optimization_color_img(all, &all->colors_west, all->path->west_path);
+	optimization_color_img(all, &all->colors_east, all->path->east_path);
+	optimization_color_img(all, &all->colors_sprite, "textures/barrel.xpm");
 	print(all);
-	int	x1;
-	int	y1;
-
-	mlx_mouse_get_pos(all->mlx.win, &x1, &y1);
-	printf("%d %d\n", x1, y1);
-	mlx_mouse_move(all->mlx.win, x, y);
 	mlx_hook(all->mlx.win, 17, 1L << 0, close_win, &all->img);
 	mlx_hook(all->mlx.win, 2, 1L << 0, key_hook, all);
-	mlx_mouse_hook(all->mlx.win, mouse_hook, all);
+	// mlx_mouse_hook(all->mlx.win, mouse_hook, all);
 	mlx_loop(all->mlx.mlx);
 }

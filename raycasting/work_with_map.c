@@ -14,23 +14,25 @@
 
 void	print_player(t_all *all, int color)
 {
-	int	i;
-	int	x1;
-	int	y1;
+	int		i;
+	int		x1;
+	int		y1;
+	double	x;
 
 	i = 0;
 	y1 = 0;
+	x = all->player.posX - all->count + 7;
 	while (y1 < 10)
 	{
 		x1 = 0;
 		while (x1 < 10)
 		{
-			my_mlx_pixel_put(&all->img_map, 10 * all->player.posY + x1, 10 * all->player.posX + y1, color);
+			my_mlx_pixel_put(&all->img_map, 10 * all->player.posY + y1, 10 * x + x1, color);
 			x1++;
 		}
 		y1++;
 	}
-	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 0, 0);
+	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 10, 10);
 }
 
 void	print_img(t_data *img, int x, int y, int color)
@@ -71,5 +73,5 @@ void	print_mini_map(t_all *all)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 0, 0);
+	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->img_map.img, 10, 10);
 }

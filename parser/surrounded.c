@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 02:38:27 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 18:31:47 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/08 12:11:36 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_line_for_wals(char *line, char *next, char *last) // все стены
 		i++;
 	while (line[i])
 	{
-		if (!ft_check(line[i], " 10NWSE") || ((line[i + 1] == ' ' \
+		if (!ft_check(line[i], " 210NWSE") || ((line[i + 1] == ' ' \
 							|| line[i - 1] == ' ') && line[i] != '1'))
 			return (1);
 		if ((line[i] == '0' && next[i] == ' ') \
