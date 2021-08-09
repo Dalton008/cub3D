@@ -3,84 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   dublicate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 02:32:45 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 18:30:58 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 16:15:06 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-int	dublicate_texture(t_lst *lst)
+static int	error_textures(t_lst *lst, t_all *all, t_lst *head)
 {
-	int	no_count;
-	int	so_count;
-	int we_count;
-	int	ea_count;
-	t_lst	*head;
-
-	no_count = 0;
-	so_count = 0;
-	we_count = 0;
-	ea_count = 0;
-	head = lst;
-	while (lst)
-	{
-		if (ft_strnstr(lst->str, "NO ", 3) != 0)
-			no_count++;
-		else if (ft_strnstr(lst->str, "SO ", 3) != 0)
-			so_count++;
-		else if (ft_strnstr(lst->str, "WE ", 3) != 0)
-			we_count++;
-		else if (ft_strnstr(lst->str, "EA ", 3) != 0)
-			ea_count++;
-		lst = lst->next;
-	}
-	if (no_count > 1 || so_count > 1 || we_count > 1 || ea_count > 1)
+	if (all->path->no_count > 1 || all->path->so_count > 1 \
+			|| all->path->we_count > 1 || all->path->ea_count > 1)
 	{
 		lst = head;
 		lst->error = DUBLICATE_TEX;
 		return (1);
 	}
-	else if (no_count == 0 || so_count == 0 || we_count == 0 || ea_count == 0)
+	else if (all->path->no_count == 0 || all->path->so_count == 0 \
+			|| all->path->we_count == 0 || all->path->ea_count == 0)
 	{
 		lst = head;
 		lst->error = NOT_ENOUGHT_TEX;
-		return (1);	
+		return (1);
 	}
+	return (0);
+}
+
+int	dublicate_texture(t_lst *lst, t_all *all)
+{
+	t_lst	*head;
+
+	head = lst;
+	while (lst)
+	{
+		if (ft_strnstr(lst->str, "NO ", 3) != 0)
+			all->path->no_count++;
+		else if (ft_strnstr(lst->str, "SO ", 3) != 0)
+			all->path->so_count++;
+		else if (ft_strnstr(lst->str, "WE ", 3) != 0)
+			all->path->we_count++;
+		else if (ft_strnstr(lst->str, "EA ", 3) != 0)
+			all->path->ea_count++;
+		lst = lst->next;
+	}
+	if (error_textures(lst, all, head) == 1)
+		return (1);
 	else
 		return (0);
 }
 
-int	dublicate_colour(t_lst *lst)
+static int	error_colour(t_lst *lst, t_all *all, t_lst *head)
 {
-	int	f_count;
-	int	c_count;
-	t_lst	*head;
-
-	f_count = 0;
-	c_count = 0;
-	head = lst;
-	while (lst)
-	{
-		if (ft_strnstr(lst->str, "F ", 2) != 0)
-			f_count++;
-		if (ft_strnstr(lst->str, "C ", 2) != 0)
-			c_count++;
-		lst = lst->next;
-	}
-	if (f_count > 1 || c_count > 1)
+	if (all->path->f_count > 1 || all->path->c_count > 1)
 	{
 		lst = head;
 		lst->error = DUBLICATE_COLOUR;
 		return (1);
 	}
-	else if (f_count == 0 || c_count == 0)
+	else if (all->path->f_count == 0 || all->path->c_count == 0)
 	{
 		lst = head;
 		lst->error = NOT_ENOUGHT_COLOUR;
 		return (1);
 	}
 	return (0);
+}
+
+int	dublicate_colour(t_lst *lst, t_all *all)
+{
+	t_lst	*head;
+
+	head = lst;
+	while (lst)
+	{
+		if (ft_strnstr(lst->str, "F ", 2) != 0)
+			all->path->f_count++;
+		if (ft_strnstr(lst->str, "C ", 2) != 0)
+			all->path->c_count++;
+		lst = lst->next;
+	}
+	if (error_colour(lst, all, head) == 1)
+		return (1);
+	else
+		return (0);
 }

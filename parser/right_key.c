@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 02:31:17 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 18:31:25 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 17:35:17 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_key(char *line)
 {
-	if (ft_strncmp("NO ", line, 3) == 0) // нашел NO
+	if (ft_strncmp("NO ", line, 3) == 0)
 		return (0);
 	else if (ft_strncmp("SO ", line, 3) == 0)
 		return (0);

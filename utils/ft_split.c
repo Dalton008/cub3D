@@ -6,13 +6,13 @@
 /*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:04:32 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 03:04:59 by lgarg            ###   ########.fr       */
+/*   Updated: 2021/08/09 16:15:41 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-int	static	ft_check1(const char *s, char c)
+static int	ft_check1(const char *s, char c)
 {
 	int		count;
 	int		i;
@@ -31,7 +31,7 @@ int	static	ft_check1(const char *s, char c)
 	return (count);
 }
 
-int static	ft_check_lengh(char *str, char c)
+static int	ft_check_lengh(char *str, char c)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ int static	ft_check_lengh(char *str, char c)
 	return (i);
 }
 
-void static	*ft_free_everything(char **str)
+static void	*ft_free_everything(char **str)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ void static	*ft_free_everything(char **str)
 	return (NULL);
 }
 
-char static	**ft_writestr(char **str, char const *s, int countstr, char c)
+static char	**ft_writestr(char **str, char const *s, int countstr, char c)
 {
 	int		str_pos;
 	int		n;
