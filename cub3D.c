@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:00:18 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 18:10:32 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 20:15:50 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	change_map_to_int(t_all *all, t_lst *lst)
 	j = 0;
 	c = 0;
 	all->map = (int **)malloc(sizeof(int *) * (ft_lstsize(lst) - all->count));
-	while (i < 8)
+	while (i < (all->count + 1))
 	{
 		lst = lst->next;
 		i++;

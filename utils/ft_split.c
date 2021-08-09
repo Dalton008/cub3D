@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:04:32 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 16:15:41 by lgarg            ###   ########.fr       */
+/*   Updated: 2021/08/09 20:24:31 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_check_lengh(char *str, char c)
 	return (i);
 }
 
-static void	*ft_free_everything(char **str)
+void	*ft_free_everything(char **str)
 {
 	int	i;
 

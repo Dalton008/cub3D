@@ -6,13 +6,13 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 02:40:26 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 18:31:01 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 20:22:33 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-char ft_check(char c, const char *set)
+char	ft_check(char c, const char *set)
 {
 	int	i;
 

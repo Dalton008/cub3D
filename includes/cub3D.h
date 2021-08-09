@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:01:02 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 20:04:57 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 20:24:47 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ char			**ft_split(char const *s, char c);
 int				ft_isdigit(int c);
 int				ft_strncmp(const char *str1, const char *str2, size_t num);
 void			max_height_map(t_all *all);
+void			*ft_free_everything(char **str);
 
 //raycast
 void			raycaster(t_all *all);

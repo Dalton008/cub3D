@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_colour.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:03:50 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 16:25:22 by lgarg            ###   ########.fr       */
+/*   Updated: 2021/08/09 20:25:50 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	make_rgb_colour(t_all *all)
 {
 	return (all->path->red << 16 | all->path->green << 8 \
-										| all->path->blue);
+		| all->path->blue);
 }
 
 void	get_rgb(t_all *all, char **temp)
@@ -66,7 +66,7 @@ int	get_colour(char *line, t_lst *lst, t_all *all)
 	}
 	check_didgit(temp, lst, all);
 	get_rgb(all, temp);
-	free(temp);
+	ft_free_everything(temp);
 	if (all->path->red > 255 || all->path->red < 0 || all->path->green > 255 \
 	|| all->path->green < 0 || all->path->blue > 255 || all->path->blue < 0)
 		colour_error(lst, all);

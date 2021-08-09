@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 13:55:42 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 20:03:45 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/09 20:22:03 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,6 @@ void	print(t_all *all)
 
 void	raycaster(t_all *all)
 {
-	// printf("%d\n", all->path->floor_colour);
-	// printf("%d\n", all->path->celling_colour);
 	all->mini.on = 1;
 	all->mlx.mlx = mlx_init();
 	all->mlx.win = mlx_new_window(all->mlx.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, \
