@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:00:18 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 20:15:50 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 19:38:00 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	init_path(t_all *all)
 	all->path->ea_count = 0;
 	all->path->f_count = 0;
 	all->path->c_count = 0;
+	all->map_max_height = 0;
+	all->map_max_width = 0;
 }
 
 void	parse_and_check(t_all *all, t_lst *lst)
@@ -82,7 +84,6 @@ void	parse_and_check(t_all *all, t_lst *lst)
 	main_check(lst, all);
 	parse_info(lst, all);
 	change_map_to_int(all, lst);
-	max_height_map(all);
 }
 
 int	main(int argc, char **argv)
@@ -109,6 +110,7 @@ int	main(int argc, char **argv)
 	line = NULL;
 	while (get_next_line(fd, &line))
 		ft_lstadd_back(&lst, ft_lstnew(line));
+	ft_lstadd_back(&lst, ft_lstnew(line));
 	parse_and_check(all, lst);
 	raycaster(all);
 }

@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:03:50 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 20:25:50 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 19:07:46 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,7 @@ void	get_rgb(t_all *all, char **temp)
 	all->path->blue = ft_atoi(temp[2]);
 }
 
-void	colour_error(t_lst *lst, t_all *all)
-{
-	lst->error = BAD_COLOUR;
-	main_check(lst, all);
-}
-
-int	check_didgit(char **temp, t_lst *lst, t_all *all)
+int	check_didgit(char **temp, t_lst *lst)
 {	
 	int		i;
 	int		j;
@@ -42,8 +36,8 @@ int	check_didgit(char **temp, t_lst *lst, t_all *all)
 		j = 0;
 		while (temp[i][j])
 		{
-			if (!ft_isdigit(temp[i][j]))
-				colour_error(lst, all);
+			if (!ft_isdigit_fixed(temp[i][j]))
+				colour_error(lst);
 			j++;
 		}
 		i++;
@@ -60,16 +54,13 @@ int	get_colour(char *line, t_lst *lst, t_all *all)
 		return (0);
 	temp = ft_split(line, ',');
 	if (ft_splitlen(temp) != 3)
-	{
-		lst->error = BAD_COLOUR;
-		main_check(lst, all);
-	}
-	check_didgit(temp, lst, all);
+		colour_error(lst);
+	check_didgit(temp, lst);
 	get_rgb(all, temp);
 	ft_free_everything(temp);
 	if (all->path->red > 255 || all->path->red < 0 || all->path->green > 255 \
 	|| all->path->green < 0 || all->path->blue > 255 || all->path->blue < 0)
-		colour_error(lst, all);
+		colour_error(lst);
 	res = make_rgb_colour(all);
 	return (res);
 }

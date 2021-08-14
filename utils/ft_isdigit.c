@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:06:06 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 20:17:32 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/13 13:20:01 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
 int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isdigit_fixed(int c)
 {
 	if ((c >= 48 && c <= 57) || c == ' ')
 		return (1);

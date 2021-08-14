@@ -6,7 +6,7 @@
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:49:33 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 20:06:04 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 19:39:23 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,41 @@ void	check_map(t_lst *lst)
 	exit (0);
 }
 
+void	valid_map(t_lst *lst, t_all *all)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (all->map_c[i])
+	{
+		j = 0;
+		while (all->map_c[i][j] != '\0')
+		{
+			if (ft_check(all->map_c[i][j], "02NSEW"))
+			{
+				if (i == 0 || j == 0 || i == all->map_max_height - 1 \
+							|| j == all->map_max_width - 1)
+					map_error(lst);
+				else
+				{
+					check_validation(lst, all, j, i);
+					check_validation_second(lst, all, j, i);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void	main_check(t_lst *lst, t_all *all)
 {
+	valid_map(lst, all);
 	if (right_simbols_in_map(lst, all) == 1 || how_many_players(lst, all) == 1 \
-		|| if_surrounded_by_wals_horisontal(lst, all) == 1 \
-	|| check_corners(lst, all) == 1 || lst->error != 0 || right_key(lst) == 1 \
+		|| lst->error != 0 || right_key(lst, all) == 1 \
 		|| dublicate_texture(lst, all) == 1 \
-	|| dublicate_colour(lst, all) == 1)
+		|| dublicate_colour(lst, all) == 1)
 	{
 		check_map(lst);
 	}

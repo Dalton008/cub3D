@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 18:02:10 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 18:44:24 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 13:16:50 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	parse_map(t_all *all, t_lst *lst)
 		all->map_c[i] = lst->str;
 		lst = lst->next;
 		i++;
+		all->map_max_height++;
 	}
 	all->map_c[i] = NULL;
 }

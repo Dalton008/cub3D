@@ -6,7 +6,7 @@
 /*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 03:00:29 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/05 03:00:44 by lgarg            ###   ########.fr       */
+/*   Updated: 2021/08/13 19:12:39 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int static	if_if(char *str)
 		|| str[i] == '\f' || str[i] == '\r');
 }
 
-int	ft_atoi(char *str)
+long long	ft_atoi(char *str)
 {
-	int	sign;
-	int	nbr;
-	int	num;
+	long long	sign;
+	long long	nbr;
+	long long	num;
 
 	sign = 1;
 	nbr = 0;

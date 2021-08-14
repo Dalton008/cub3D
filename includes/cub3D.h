@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 14:01:02 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 20:24:47 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 13:29:17 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,9 +190,10 @@ void			ft_putstr_fd(char *s, int fd);
 void			ft_putchar_fd(char c, int fd);
 char			ft_check(char c, const char *set);
 int				ft_splitlen(char **str);
-int				ft_atoi(char *str);
+long long		ft_atoi(char *str);
 char			*ft_strtrim(char const *s, const char *set);
 char			**ft_split(char const *s, char c);
+int				ft_isdigit_fixed(int c);
 int				ft_isdigit(int c);
 int				ft_strncmp(const char *str1, const char *str2, size_t num);
 void			max_height_map(t_all *all);
@@ -226,22 +227,22 @@ void			new_init_spr(t_all *all, int i);
 void			main_check(t_lst *lst, t_all *all);
 void			parse_info(t_lst *lst, t_all *all);
 int				check_key(char *line);
-int				right_key(t_lst *lst);
+int				right_key(t_lst *lst, t_all *all);
 int				dublicate_colour(t_lst *lst, t_all *all);
 int				dublicate_texture(t_lst *lst, t_all *all);
 char			*ft_strnstr(const char *big, const char *little, size_t len);
-int				check_last_corner(char *line, char *last);
-int				check_first_corner(char *line, char *next);
-int				check_corners(t_lst *lst, t_all *all);
 int				if_surrounded_by_wals(t_lst *lst, t_all *all);
-int				check_first_last_line(char *line);
-int				check_line_for_wals(char *line, char *next, char *last);
 void			get_path(char *line, t_lst *lst, t_all *all);
 int				get_colour(char *line, t_lst *lst, t_all *all);
 void			set_coordinates(t_all *all, int i, int j);
 void			parse_map(t_all *all, t_lst *lst);
 void			check_lst(t_lst *lst, t_all *all);
 void			check_open_map(char **argv, int fd);
-int				if_surrounded_by_wals_horisontal(t_lst *lst, t_all *all);
+void			check_validation(t_lst *lst, t_all *all, int j, int i);
+void			check_validation_second(t_lst *lst, t_all *all, int j, int i);
+void			check_map(t_lst *lst);
+void			texture_error(t_lst *lst);
+void			map_error(t_lst *lst);
+void			colour_error(t_lst *lst);
 
 #endif

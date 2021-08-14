@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   work_with_map.c                                    :+:      :+:    :+:   */
+/*   work_with_mini_map.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 15:47:04 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 15:47:38 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 19:03:27 by mjammie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,16 @@ void	print_player(t_all *all, int color)
 	int		i;
 	int		x1;
 	int		y1;
-	double	x;
 
 	i = 0;
 	y1 = 0;
-	x = all->player.posX - all->count + 7;
 	while (y1 < 10)
 	{
 		x1 = 0;
 		while (x1 < 10)
 		{
 			my_mlx_pixel_put(&all->img_map, 10 * all->player.posY + y1, \
-				10 * x + x1, color);
+				10 * all->player.posX + x1, color);
 			x1++;
 		}
 		y1++;

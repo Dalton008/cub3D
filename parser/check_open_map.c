@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_open_map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 18:07:17 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 20:21:25 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 13:16:31 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	check_open_map(char **argv, int fd)
 		if (fd != -1)
 		{
 			try_to_read = read(fd, buf, 10);
-			if (try_to_read == 0)
+			if (try_to_read == 0 || try_to_read == -1)
 				open_map_error("Error\nEmpty file\n");
 		}
 		else

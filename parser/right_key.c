@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   right_key.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 02:31:17 by lgarg             #+#    #+#             */
-/*   Updated: 2021/08/09 17:35:17 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 13:16:51 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	check_key(char *line)
 	return (1);
 }
 
-int	right_key(t_lst *lst)
+int	right_key(t_lst *lst, t_all *all)
 {
 	int		i;
 	t_lst	*head;
 
 	i = 0;
 	head = lst;
-	while (i < 7)
+	while (i < all->count + 1)
 	{
 		if (check_key(lst->str) == 1)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjammie <mjammie@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgarg <lgarg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 18:03:10 by mjammie           #+#    #+#             */
-/*   Updated: 2021/08/09 18:03:24 by mjammie          ###   ########.fr       */
+/*   Updated: 2021/08/14 13:16:19 by lgarg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	check_lst(t_lst *lst, t_all *all)
 	all->count--;
 	lst = head;
 	parse_map(all, lst);
+	max_height_map(all);
 }
